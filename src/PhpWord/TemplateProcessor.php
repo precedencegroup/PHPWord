@@ -945,7 +945,7 @@ class TemplateProcessor
         $escapedMacroClosingChars = preg_quote(self::$macroClosingChars);
         $escapedBlockName = preg_quote($blockname);
         preg_match(
-            '/(<w:p\b[^>]*?>\s*<w:r\b[^>]*?>\s*<w:t>' . $escapedMacroOpeningChars . $escapedBlockName . $escapedMacroClosingChars . '<\/w:t>\s*<\/w:r>\s*<\/w:p>)(.*?)(<w:p\b[^>]*?>\s*<w:r\b[^>]*?>\s*<w:t>' . $escapedMacroOpeningChars . '\/' . $escapedBlockName . $escapedMacroClosingChars . '<\/w:t>\s*<\/w:r>\s*<\/w:p>)/is',
+            '/(<w:p\b[^>]*?>\s*<w:r\b[^>]*?>\s*(?:<w:lastRenderedPageBreak\/>)?\s*<w:t>' . $escapedMacroOpeningChars . $escapedBlockName . $escapedMacroClosingChars . '<\/w:t>\s*<\/w:r>\s*<\/w:p>)(.*?)(<w:p\b[^>]*?>\s*<w:r\b[^>]*?>\s*(?:<w:lastRenderedPageBreak\/>)?\s*<w:t>' . $escapedMacroOpeningChars . '\/' . $escapedBlockName . $escapedMacroClosingChars . '<\/w:t>\s*<\/w:r>\s*<\/w:p>)/is',
             $this->tempDocumentMainPart,
             $matches
         );
