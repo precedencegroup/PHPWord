@@ -943,15 +943,16 @@ class TemplateProcessor
         $matches = [];
         $escapedMacroOpeningChars = preg_quote(self::$macroOpeningChars);
         $escapedMacroClosingChars = preg_quote(self::$macroClosingChars);
+        $escapedBlockName = preg_quote($blockname);
         preg_match(
-            '/(<\?xml.*)(<w:p.*>' . $escapedMacroOpeningChars . $blockname . $escapedMacroClosingChars . '<\/w:.*?p>)(.*)(<w:p.*' . $escapedMacroOpeningChars . '\/' . $blockname . $escapedMacroClosingChars . '<\/w:.*?p>)/is',
+            '/(<w:p\b[^>]*?>\s*<w:r\b[^>]*?>\s*<w:t>' . $escapedMacroOpeningChars . $escapedBlockName . $escapedMacroClosingChars . '<\/w:t>\s*<\/w:r>\s*<\/w:p>)(.*?)(<w:p\b[^>]*?>\s*<w:r\b[^>]*?>\s*<w:t>' . $escapedMacroOpeningChars . '\/' . $escapedBlockName . $escapedMacroClosingChars . '<\/w:t>\s*<\/w:r>\s*<\/w:p>)/is',
             $this->tempDocumentMainPart,
             $matches
         );
 
-        if (isset($matches[3])) {
+        if (isset($matches[2])) {
             $this->tempDocumentMainPart = str_replace(
-                $matches[2] . $matches[3] . $matches[4],
+                $matches[1] . $matches[2] . $matches[3],
                 $replacement,
                 $this->tempDocumentMainPart
             );
